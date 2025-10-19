@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FishMaster828</title>
+  <meta name="description" content="Link tree for ˋмүѕтєяу (FishMaster828)" />
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body,#app{height:100%}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:#000;overflow:hidden}
+
+    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(135deg,rgba(120,64,255,1)0%,rgba(10,10,10,1)100%);transition:opacity .6s ease;transform-origin:50% 50%}
+    .overlay{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px}
+
+    .brand{text-align:center;cursor:pointer;user-select:none;position:relative}
+    .brand h1{font-family:'Segoe UI Variable',ui-sans-serif,system-ui,-apple-system;font-size:48px;letter-spacing:6px;margin-bottom:6px;line-height:1;color:#fff;text-shadow:0 0 6px rgba(255,255,255,0.4);transition:opacity .5s ease;position:relative;display:inline-flex}
+    .brand p{opacity:.85;margin-top:6px}
+
+    #view-counter{position:fixed;top:10px;right:16px;background:rgba(255,255,255,0.1);padding:6px 10px;border-radius:8px;font-size:14px;z-index:10}
+
+    .card{position:relative;z-index:2;width:min(720px,95%);max-width:720px;margin-top:28px;background:linear-gradient(180deg,rgba(17,11,25,0.55),rgba(0,0,0,0.6));border-radius:16px;padding:18px;backdrop-filter:blur(8px);box-shadow:0 8px 40px rgba(0,0,0,.6)}
+    .tabs{display:flex;gap:8px;margin-bottom:14px}
+    .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer}
+    .tab.active{background:linear-gradient(90deg,#6b3bff66,#00000033)}
+
+    .links{display:flex;flex-direction:column;gap:10px}
+    .link{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer;text-decoration:none;color:inherit;transition:transform .12s ease,background .12s}
+    .link:hover{transform:translateY(-4px)}
+    .avatar{width:56px;height:56px;border-radius:10px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
+    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+    .meta{flex:1}
+    .meta .title{font-weight:600}
+    .meta .sub{opacity:.7;font-size:13px;margin-top:4px}
+
+    .specs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .specs div{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
+
+    @media(max-width:480px){.brand h1{font-size:32px}.avatar{width:48px;height:48px}}
+  </style>
+</head>
+<body>
+  <div class="bg" id="bg"></div>
+  <div id="view-counter">Views: <span id="views">0</span></div>
+  <div class="overlay" id="app">
+    <div class="brand" id="brand">
+      <h1 id="username"></h1>
+      <p>this is my link tree</p>
+    </div>
+
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-tab="fish">FishMaster828</div>
+        <div class="tab" data-tab="myst">ˋмүѕтєяy</div>
+        <div class="tab" data-tab="pc">PC Specs</div>
+      </div>
+
+      <div class="content" id="content">
+        <div class="panel" data-panel="fish">
+          <p style="margin-bottom:10px;opacity:.8">FishMaster828 Is Still Me But My Streaming Links</p>
+          <div class="links">
+            <a class="link" href="https://www.twitch.tv/fishmaster828" target="_blank">
+              <div class="avatar"><img src="https://static.twitchcdn.net/assets/favicon-144x144.png"></div>
+              <div class="meta"><div class="title">Twitch — FishMaster828</div><div class="sub">Watch live, support the streamer</div></div>
+            </a>
+            <a class="link" href="https://www.youtube.com/channel/UCMTTBxwO7aECcgaRrUgYhqA" target="_blank">
+              <div class="avatar"><img src="https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png"></div>
+              <div class="meta"><div class="title">YouTube — FishMaster828</div><div class="sub">Subscribe for videos</div></div>
+            </a>
+            <a class="link" href="https://www.tiktok.com/@fishmaster828" target="_blank">
+              <div class="avatar"><img src="https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png"></div>
+              <div class="meta"><div class="title">TikTok — @fishmaster828</div><div class="sub">Shorts & clips</div></div>
+            </a>
+            <a class="link" href="https://discord.gg/KRA6bV8fKx" target="_blank">
+              <div class="avatar"><img src="https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico"></div>
+              <div class="meta"><div class="title">FishMaster828's Discord Server</div><div class="sub">Join the community</div></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="panel" data-panel="myst" style="display:none">
+          <div class="links">
+            <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank">
+              <div class="avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png"></div>
+              <div class="meta"><div class="title">VRChat — Profile</div></div>
+            </a>
+            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank">
+              <div class="avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png"></div>
+              <div class="meta"><div class="title">VRChat — Group</div></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="panel" data-panel="pc" style="display:none">
+          <div class="specs">
+            <div><strong>CPU:</strong><div>AMD RYZEN 9 5950X, 16-C, 32-T</div></div>
+            <div><strong>GPU:</strong><div>GEFORCE RTX 3060 （20GB M, 12GB V）</div></div>
+            <div><strong>RAM:</strong><div>Fanxiang, 16GB, DDR4, 3600MHz</div></div>
+            <div><strong>STORAGE:</strong><div>1TB SSD, 1TB HDD</div></div>
+            <div><strong>MOTHERBOARD:</strong><div>MSI A520M-A PRO</div></div>
+            <div><strong>NETWORK:</strong><div>ETHERNET & WIFI USB</div></div>
+            <div><strong>PSU:</strong><div>750W</div></div>
+            <div><strong>WINDOWS:</strong><div>Windows 7 Modified</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const bg=document.getElementById('bg');
+const username=document.getElementById('username');
+const viewsEl=document.getElementById('views');
+const brand=document.getElementById('brand');
+
+const nameText='ˋмүѕтєяy';
+for(let char of nameText){
+  const span=document.createElement('span');
+  span.textContent=char;
+  span.style.position='relative';
+  span.style.display='inline-block';
+  span.style.transition='transform 0.2s';
+  username.appendChild(span);
+}
+
+window.addEventListener('mousemove',e=>{
+  const x=e.clientX/window.innerWidth*100;
+  const y=e.clientY/window.innerHeight*100;
+  bg.style.transformOrigin=`${x}% ${y}%`;
+  bg.style.transform='scale(1.06)';
+});
+window.addEventListener('mouseleave',()=>{bg.style.transform='scale(1)';});
+
+const tabs=document.querySelectorAll('.tab');
+const panels=document.querySelectorAll('.panel');
+tabs.forEach(tab=>tab.addEventListener('click',()=>{
+  tabs.forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  panels.forEach(p=>p.style.display=p.dataset.panel===tab.dataset.tab?'block':'none');
+}));
+
+const spans=username.querySelectorAll('span');
+function glitch(){
+  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const i=Math.floor(Math.random()*spans.length);
+  const el=spans[i];
+  const old=el.textContent;
+  el.textContent=chars[Math.floor(Math.random()*chars.length)];
+  setTimeout(()=>{el.textContent=old},150);
+}
+setInterval(glitch,2000+Math.random()*2000);
+
+let views=parseInt(localStorage.getItem('linktreeViews')||'0');
+views++;
+localStorage.setItem('linktreeViews',views);
+viewsEl.textContent=views;
+
+let physicsActive=false;
+let letters=[...spans].map(el=>({el,y:0,v:0,x:0,vx:0,grabbed:false}));
+
+function updatePhysics(){
+  if(!physicsActive)return;
+  const gravity=0.8;
+  const bounce=0.7;
+  const floor=window.innerHeight-100;
+  const leftBound=0;
+  const rightBound=window.innerWidth-40;
+
+  for(let a of letters){
+    if(a.grabbed)continue;
+    a.v+=gravity;
+    a.y+=a.v;
+    a.x+=a.vx;
+
+    if(a.y>floor){a.y=floor;a.v*=-bounce;if(Math.abs(a.v)<1)a.v=0;}
+    if(a.x<leftBound){a.x=leftBound;a.vx*=-bounce;}
+    if(a.x>rightBound){a.x=rightBound;a.vx*=-bounce;}
+  }
+
+  for(let i=0;i<letters.length;i++){
+    for(let j=i+1;j<letters.length;j++){
+      let a=letters[i],b=letters[j];
+      let dx=b.x-a.x,dy=b.y-a.y;
+      if(Math.abs(dx)<30 && Math.abs(dy)<30){
+        let temp=a.vx;a.vx=b.vx;b.vx=temp;
+        temp=a.v;a.v=b.v;b.v=temp;
+      }
+    }
+  }
+
+  for(let a of letters){a.el.style.transform=`translate(${a.x}px,${a.y}px)`;}
+  requestAnimationFrame(updatePhysics);
+}
+
+brand.addEventListener('click',()=>{
+  if(physicsActive)return;
+  physicsActive=true;
+  for(let i=0;i<letters.length;i++){
+    letters[i].v=-Math.random()*20;
+    letters[i].vx=(Math.random()-0.5)*10;
+  }
+  updatePhysics();
+});
+
+letters.forEach(a=>{
+  const el=a.el;
+  el.addEventListener('mousedown',e=>{
+    a.grabbed=true;
+    const startX=e.clientX,startY=e.clientY,origX=a.x,origY=a.y;
+    function move(ev){a.x=Math.min(Math.max(0,origX+(ev.clientX-startX)),window.innerWidth-40);a.y=Math.min(Math.max(0,origY+(ev.clientY-startY)),window.innerHeight-100);}
+    function up(){a.grabbed=false;document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);}
+    document.addEventListener('mousemove',move);
+    document.addEventListener('mouseup',up);
+  });
+});
+</script>
+</body>
+</html>
