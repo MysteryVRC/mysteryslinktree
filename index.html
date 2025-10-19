@@ -4,25 +4,29 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>FishMaster828</title>
-  <meta name="description" content="Link tree for ˋмүѕтєяу (FishMaster828)" />
+  <meta name="description" content="Link tree for ˋмүѕтєяy (FishMaster828)" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     html,body,#app{height:100%}
     body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:#000;overflow:hidden}
 
-    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;background:linear-gradient(135deg,rgba(120,64,255,1)0%,rgba(10,10,10,1)100%);transition:opacity .6s ease;transform-origin:50% 50%}
+    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;transition:background .5s ease,opacity .5s ease;transform-origin:50% 50%}
     .overlay{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px}
 
     .brand{text-align:center;cursor:pointer;user-select:none;position:relative}
-    .brand h1{font-family:'Segoe UI Variable',ui-sans-serif,system-ui,-apple-system;font-size:48px;letter-spacing:6px;margin-bottom:6px;line-height:1;color:#fff;text-shadow:0 0 6px rgba(255,255,255,0.4);transition:opacity .5s ease;position:relative;display:inline-flex}
-    .brand p{opacity:.85;margin-top:6px}
+    .brand h1{font-family:'Segoe UI Variable',ui-sans-serif,system-ui,-apple-system;font-size:48px;letter-spacing:6px;margin-bottom:6px;line-height:1;color:#fff;text-shadow:0 0 8px rgba(255,255,255,0.25);transition:opacity .6s ease,transform .6s ease;position:relative;display:inline-flex}
+    .brand p{opacity:0.9;margin-top:6px}
 
-    #view-counter{position:fixed;top:10px;right:16px;background:rgba(255,255,255,0.1);padding:6px 10px;border-radius:8px;font-size:14px;z-index:10}
+    #view-counter{position:fixed;top:10px;right:16px;background:rgba(255,255,255,0.08);padding:6px 10px;border-radius:8px;font-size:14px;z-index:10}
 
-    .card{position:relative;z-index:2;width:min(720px,95%);max-width:720px;margin-top:28px;background:linear-gradient(180deg,rgba(17,11,25,0.55),rgba(0,0,0,0.6));border-radius:16px;padding:18px;backdrop-filter:blur(8px);box-shadow:0 8px 40px rgba(0,0,0,.6)}
+    .card{position:relative;z-index:2;width:min(820px,95%);max-width:820px;margin-top:28px;background:linear-gradient(180deg,rgba(17,11,25,0.55),rgba(0,0,0,0.6));border-radius:16px;padding:18px;backdrop-filter:blur(8px);box-shadow:0 8px 40px rgba(0,0,0,.6)}
     .tabs{display:flex;gap:8px;margin-bottom:14px}
-    .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer}
+    .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer;user-select:none;transition:background .25s}
     .tab.active{background:linear-gradient(90deg,#6b3bff66,#00000033)}
+
+    .content{min-height:180px}
+    .panel{opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+    .panel.active{opacity:1;transform:translateY(0)}
 
     .links{display:flex;flex-direction:column;gap:10px}
     .link{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer;text-decoration:none;color:inherit;transition:transform .12s ease,background .12s}
@@ -36,6 +40,8 @@
     .specs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
     .specs div{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
 
+    .infoBox{min-height:140px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);outline:none}
+
     @media(max-width:480px){.brand h1{font-size:32px}.avatar{width:48px;height:48px}}
   </style>
 </head>
@@ -44,35 +50,40 @@
   <div id="view-counter">Views: <span id="views">0</span></div>
   <div class="overlay" id="app">
     <div class="brand" id="brand">
-      <h1 id="username"></h1>
-      <p>this is my link tree</p>
+      <h1 id="username" aria-label="mystery name"></h1>
+      <p id="subtitle">this is my link tree</p>
     </div>
 
     <div class="card">
       <div class="tabs" role="tablist">
-        <div class="tab active" data-tab="fish">FishMaster828</div>
+        <div class="tab" data-tab="info">Info</div>
+        <div class="tab" data-tab="fish">FishMaster828</div>
         <div class="tab" data-tab="myst">ˋмүѕтєяy</div>
         <div class="tab" data-tab="pc">PC Specs</div>
       </div>
 
       <div class="content" id="content">
-        <div class="panel" data-panel="fish">
-          <p style="margin-bottom:10px;opacity:.8">FishMaster828 Is Still Me But My Streaming Links</p>
+        <div class="panel" data-panel="info">
+          <div class="infoBox" id="infoBox" contenteditable="true"></div>
+        </div>
+
+        <div class="panel" data-panel="fish" style="display:none">
+          <p style="margin-bottom:10px;opacity:.85">FishMaster828 Is Still Me But My Streaming Links</p>
           <div class="links">
-            <a class="link" href="https://www.twitch.tv/fishmaster828" target="_blank">
-              <div class="avatar"><img src="https://static.twitchcdn.net/assets/favicon-144x144.png"></div>
+            <a class="link" href="https://www.twitch.tv/fishmaster828" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="twitch" alt="twitch"></div>
               <div class="meta"><div class="title">Twitch — FishMaster828</div><div class="sub">Watch live, support the streamer</div></div>
             </a>
-            <a class="link" href="https://www.youtube.com/channel/UCMTTBxwO7aECcgaRrUgYhqA" target="_blank">
-              <div class="avatar"><img src="https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png"></div>
+            <a class="link" href="https://www.youtube.com/channel/UCMTTBxwO7aECcgaRrUgYhqA" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="youtube" alt="youtube"></div>
               <div class="meta"><div class="title">YouTube — FishMaster828</div><div class="sub">Subscribe for videos</div></div>
             </a>
-            <a class="link" href="https://www.tiktok.com/@fishmaster828" target="_blank">
-              <div class="avatar"><img src="https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png"></div>
+            <a class="link" href="https://www.tiktok.com/@fishmaster828" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="tiktok" alt="tiktok"></div>
               <div class="meta"><div class="title">TikTok — @fishmaster828</div><div class="sub">Shorts & clips</div></div>
             </a>
-            <a class="link" href="https://discord.gg/KRA6bV8fKx" target="_blank">
-              <div class="avatar"><img src="https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico"></div>
+            <a class="link" href="https://discord.gg/KRA6bV8fKx" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="discord" alt="discord"></div>
               <div class="meta"><div class="title">FishMaster828's Discord Server</div><div class="sub">Join the community</div></div>
             </a>
           </div>
@@ -80,12 +91,12 @@
 
         <div class="panel" data-panel="myst" style="display:none">
           <div class="links">
-            <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank">
-              <div class="avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png"></div>
+            <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="vrchat" alt="vrchat"></div>
               <div class="meta"><div class="title">VRChat — Profile</div></div>
             </a>
-            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank">
-              <div class="avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png"></div>
+            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="vrchat" alt="vrchat"></div>
               <div class="meta"><div class="title">VRChat — Group</div></div>
             </a>
           </div>
@@ -108,111 +119,196 @@
   </div>
 
 <script>
+/*
+  Features implemented:
+  - Default "Info" tab active and editable (contenteditable)
+  - Fade transitions between tabs and per-tab background colors
+  - Intro animation: username + subtitle fade in; Info panel types text at 0.01s/char
+  - Global view counter using CountAPI (increment on load)
+  - Link avatars auto-loaded from known host icons
+  - Physics for letters: letters fall but are clamped to viewport and collisions between letters
+  - Letters start from their actual on-screen positions (fixes off-center)
+*/
+
 const bg=document.getElementById('bg');
 const username=document.getElementById('username');
+const subtitle=document.getElementById('subtitle');
 const viewsEl=document.getElementById('views');
 const brand=document.getElementById('brand');
-
-const nameText='ˋмүѕтєяy';
-for(let char of nameText){
-  const span=document.createElement('span');
-  span.textContent=char;
-  span.style.position='relative';
-  span.style.display='inline-block';
-  span.style.transition='transform 0.2s';
-  username.appendChild(span);
-}
-
-window.addEventListener('mousemove',e=>{
-  const x=e.clientX/window.innerWidth*100;
-  const y=e.clientY/window.innerHeight*100;
-  bg.style.transformOrigin=`${x}% ${y}%`;
-  bg.style.transform='scale(1.06)';
-});
-window.addEventListener('mouseleave',()=>{bg.style.transform='scale(1)';});
-
 const tabs=document.querySelectorAll('.tab');
 const panels=document.querySelectorAll('.panel');
-tabs.forEach(tab=>tab.addEventListener('click',()=>{
-  tabs.forEach(t=>t.classList.remove('active'));
-  tab.classList.add('active');
-  panels.forEach(p=>p.style.display=p.dataset.panel===tab.dataset.tab?'block':'none');
-}));
+const infoBox=document.getElementById('infoBox');
 
-const spans=username.querySelectorAll('span');
-function glitch(){
-  const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const i=Math.floor(Math.random()*spans.length);
-  const el=spans[i];
-  const old=el.textContent;
-  el.textContent=chars[Math.floor(Math.random()*chars.length)];
-  setTimeout(()=>{el.textContent=old},150);
+// Per-tab background gradients
+const tabBackgrounds={
+  fish: 'linear-gradient(135deg, rgba(0,200,255,1) 0%, rgba(0,0,0,1) 100%)', // cyan/black
+  myst: 'linear-gradient(135deg, rgba(120,64,255,1) 0%, rgba(10,10,10,1) 100%)', // purple/black
+  info: 'linear-gradient(135deg, rgba(120,64,255,1) 0%, rgba(10,10,10,1) 100%)', // purple/black
+  pc: 'linear-gradient(135deg, rgba(255,40,40,1) 0%, rgba(10,10,10,1) 100%)' // red/black
+};
+
+// Icons map (favicons/public logos)
+const iconMap={
+  twitch: 'https://static.twitchcdn.net/assets/favicon-144x144.png',
+  youtube: 'https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png',
+  tiktok: 'https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png',
+  discord: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico',
+  vrchat: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png',
+};
+
+// Set default tab to info on load
+function activateTab(key){
+  tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===key));
+  panels.forEach(p=>{
+    const show = p.dataset.panel===key;
+    p.style.display = show ? 'block' : 'none';
+    p.classList.toggle('active', show);
+  });
+  // change background
+  bg.style.background = tabBackgrounds[key] || tabBackgrounds.info;
 }
-setInterval(glitch,2000+Math.random()*2000);
 
-let views=parseInt(localStorage.getItem('linktreeViews')||'0');
-views++;
-localStorage.setItem('linktreeViews',views);
-viewsEl.textContent=views;
+tabs.forEach(tab=>tab.addEventListener('click', ()=>{ activateTab(tab.dataset.tab); }));
+activateTab('info');
 
+// Load avatars for links automatically
+document.querySelectorAll('.avatar img').forEach(img=>{
+  const src = img.dataset.src;
+  if(src && iconMap[src]) img.src = iconMap[src];
+  else {
+    // fallback: try site favicon from hostname in parent link
+    const parent = img.closest('.link');
+    if(parent){
+      try{
+        const url = new URL(parent.href);
+        img.src = url.origin + '/favicon.ico';
+      }catch(e){ img.src = '' }
+    }
+  }
+});
+
+// Global view counter using CountAPI (namespace: mysteryslinktree, key: visits)
+(async function incrementGlobalViews(){
+  try{
+    const res = await fetch('https://api.countapi.xyz/hit/mysteryslinktree/visits');
+    const j = await res.json();
+    if(j && typeof j.value !== 'undefined') viewsEl.textContent = j.value;
+  }catch(e){ console.warn('CountAPI failed', e); viewsEl.textContent = 'n/a' }
+})();
+
+// Intro animation: fade in username and subtitle, then type text into infoBox
+const nameText = 'ˋмүѕтєяy';
+const subtitleText = 'link tree';
+
+// create letter spans
+username.innerHTML = '';
+const spans = [];
+for(let ch of nameText){
+  const s = document.createElement('span'); s.textContent = ch;
+  s.style.position='relative'; s.style.display='inline-block'; s.style.transition='transform .2s';
+  username.appendChild(s); spans.push(s);
+}
+
+// fade in
+username.style.opacity=0; subtitle.style.opacity=0;
+setTimeout(()=>{ username.style.transition='opacity .8s ease, transform .8s ease'; username.style.opacity=1; subtitle.style.transition='opacity .8s ease'; subtitle.style.opacity=1; },200);
+
+// typing for info box at 0.01s per char (10ms)
+const initialInfo = 'Welcome — edit this text.\n\nYou can put whatever you want here.';
+async function typeText(el,text,delay=10){ el.textContent = ''; for(let i=0;i<text.length;i++){ el.textContent += text[i]; await new Promise(r=>setTimeout(r,delay)); } }
+setTimeout(()=>{ typeText(infoBox, initialInfo, 10); },900);
+
+/* Physics */
 let physicsActive=false;
-let letters=[...spans].map(el=>({el,y:0,v:0,x:0,vx:0,grabbed:false}));
+// gather letter objects
+let letters = spans.map(s=>({el:s,x:0,y:0,vx:0,vy:0,ax:0,ay:0,grabbed:false,w:0,h:0}));
+
+function resetLetterPositions(){
+  // set each letter's position to its actual on-screen coords
+  letters.forEach(obj=>{
+    const r = obj.el.getBoundingClientRect();
+    obj.x = r.left; obj.y = r.top; obj.w = r.width; obj.h = r.height; obj.vx=0; obj.vy=0; obj.grabbed=false;
+    // make element positioned absolute so transforms are relative to viewport
+    obj.el.style.position='absolute'; obj.el.style.left = obj.x+'px'; obj.el.style.top = obj.y+'px'; obj.el.style.margin=0;
+  });
+}
+
+// ensure positions set after layout
+window.addEventListener('load', ()=>{ resetLetterPositions(); });
+window.addEventListener('resize', ()=>{ // clamp back inside
+  for(let obj of letters){ obj.x = Math.min(Math.max(0, obj.x), window.innerWidth - obj.w); obj.y = Math.min(Math.max(0, obj.y), window.innerHeight - obj.h); obj.el.style.left = obj.x+'px'; obj.el.style.top = obj.y+'px'; }
+});
 
 function updatePhysics(){
-  if(!physicsActive)return;
-  const gravity=0.8;
-  const bounce=0.7;
-  const floor=window.innerHeight-100;
-  const leftBound=0;
-  const rightBound=window.innerWidth-40;
-
-  for(let a of letters){
-    if(a.grabbed)continue;
-    a.v+=gravity;
-    a.y+=a.v;
-    a.x+=a.vx;
-
-    if(a.y>floor){a.y=floor;a.v*=-bounce;if(Math.abs(a.v)<1)a.v=0;}
-    if(a.x<leftBound){a.x=leftBound;a.vx*=-bounce;}
-    if(a.x>rightBound){a.x=rightBound;a.vx*=-bounce;}
+  const gravity = 1.0; const friction = 0.995; const bounce=0.7;
+  const w = window.innerWidth, h = window.innerHeight;
+  // integrate
+  for(let obj of letters){
+    if(obj.grabbed) continue;
+    obj.vy += gravity;
+    obj.vx *= friction; obj.vy *= friction;
+    obj.x += obj.vx; obj.y += obj.vy;
+    // floor
+    if(obj.y + obj.h > h){ obj.y = h - obj.h; obj.vy *= -bounce; if(Math.abs(obj.vy) < 0.5) obj.vy = 0; }
+    // walls
+    if(obj.x < 0){ obj.x = 0; obj.vx *= -bounce; }
+    if(obj.x + obj.w > w){ obj.x = w - obj.w; obj.vx *= -bounce; }
   }
-
+  // collisions (basic AABB resolution)
   for(let i=0;i<letters.length;i++){
     for(let j=i+1;j<letters.length;j++){
-      let a=letters[i],b=letters[j];
-      let dx=b.x-a.x,dy=b.y-a.y;
-      if(Math.abs(dx)<30 && Math.abs(dy)<30){
-        let temp=a.vx;a.vx=b.vx;b.vx=temp;
-        temp=a.v;a.v=b.v;b.v=temp;
+      const A=letters[i], B=letters[j];
+      if(A === B) continue;
+      if(A.x < B.x + B.w && A.x + A.w > B.x && A.y < B.y + B.h && A.y + A.h > B.y){
+        // simple swap velocities
+        const vx = A.vx; const vy = A.vy;
+        A.vx = B.vx * 0.9; A.vy = B.vy * 0.9;
+        B.vx = vx * 0.9; B.vy = vy * 0.9;
+        // separate
+        const overlapX = (A.x + A.w/2) - (B.x + B.w/2);
+        const sep = overlapX > 0 ? 1 : -1;
+        A.x += sep * 2; B.x -= sep * 2;
       }
     }
   }
-
-  for(let a of letters){a.el.style.transform=`translate(${a.x}px,${a.y}px)`;}
-  requestAnimationFrame(updatePhysics);
+  // apply
+  for(let obj of letters){ obj.el.style.left = obj.x + 'px'; obj.el.style.top = obj.y + 'px'; }
+  if(physicsActive) requestAnimationFrame(updatePhysics);
 }
 
-brand.addEventListener('click',()=>{
-  if(physicsActive)return;
-  physicsActive=true;
-  for(let i=0;i<letters.length;i++){
-    letters[i].v=-Math.random()*20;
-    letters[i].vx=(Math.random()-0.5)*10;
-  }
-  updatePhysics();
+brand.addEventListener('click', ()=>{
+  // kickoff physics from current positions
+  if(physicsActive) return;
+  resetLetterPositions();
+  // give each letter an initial upward velocity and random horizontal
+  for(let obj of letters){ obj.vy = - (8 + Math.random()*12); obj.vx = (Math.random()-0.5) * 12; }
+  physicsActive = true; updatePhysics();
 });
 
-letters.forEach(a=>{
-  const el=a.el;
-  el.addEventListener('mousedown',e=>{
-    a.grabbed=true;
-    const startX=e.clientX,startY=e.clientY,origX=a.x,origY=a.y;
-    function move(ev){a.x=Math.min(Math.max(0,origX+(ev.clientX-startX)),window.innerWidth-40);a.y=Math.min(Math.max(0,origY+(ev.clientY-startY)),window.innerHeight-100);}
-    function up(){a.grabbed=false;document.removeEventListener('mousemove',move);document.removeEventListener('mouseup',up);}
-    document.addEventListener('mousemove',move);
-    document.addEventListener('mouseup',up);
+// Drag letters
+for(const obj of letters){
+  const el = obj.el;
+  let pointerId = null;
+  el.addEventListener('pointerdown', (e)=>{
+    e.preventDefault(); el.setPointerCapture(e.pointerId); pointerId = e.pointerId;
+    obj.grabbed = true; obj.vx = obj.vy = 0;
+    const startX = e.clientX, startY = e.clientY, startObjX = obj.x, startObjY = obj.y;
+    function move(ev){ if(ev.pointerId !== pointerId) return; obj.x = Math.min(Math.max(0, startObjX + (ev.clientX - startX)), window.innerWidth - obj.w); obj.y = Math.min(Math.max(0, startObjY + (ev.clientY - startY)), window.innerHeight - obj.h); obj.el.style.left = obj.x + 'px'; obj.el.style.top = obj.y + 'px'; }
+    function up(ev){ if(ev.pointerId !== pointerId) return; obj.grabbed=false; el.releasePointerCapture(pointerId); pointerId=null; document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up);
+      // set a small velocity based on last movement
+      obj.vx = (ev.movementX || 0); obj.vy = (ev.movementY || 0);
+    }
+    document.addEventListener('pointermove', move);
+    document.addEventListener('pointerup', up);
   });
-});
+}
+
+// Ensure clicking links still navigates - anchors wrap the avatar and meta
+// (already native behavior)
+
+// Ensure infoBox is focusable and editable — done via contenteditable
+infoBox.addEventListener('input', ()=>{/* user can edit text */});
+
 </script>
 </body>
 </html>
