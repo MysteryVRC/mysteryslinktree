@@ -214,7 +214,7 @@ username.style.opacity=0; subtitle.style.opacity=0;
 setTimeout(()=>{ username.style.transition='opacity .8s ease, transform .8s ease'; username.style.opacity=1; subtitle.style.transition='opacity .8s ease'; subtitle.style.opacity=1; },200);
 
 // typing for info box at 0.01s per char (10ms)
-const initialInfo = 'Welcome — edit this text.\n\nYou can put whatever you want here.';
+const initialInfo = 'Welcome to my linktree. \n\nIm still building it so it might be a little broken! \n\nSORRY!';
 async function typeText(el,text,delay=10){ el.textContent = ''; for(let i=0;i<text.length;i++){ el.textContent += text[i]; await new Promise(r=>setTimeout(r,delay)); } }
 setTimeout(()=>{ typeText(infoBox, initialInfo, 10); },900);
 
