@@ -92,16 +92,24 @@
         <div class="panel" data-panel="myst" style="display:none">
           <div class="links">
             <a class="link" href="https://vrchat.com/home/user/usr_89760193-9e73-4f36-b771-1f1330296281" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="vrchat"></div>
-              <div class="meta"><div class="title">VRChat — Profile</div></div>
+              <div class="avatar"><img data-src="vrchat" alt="Account"></div>
+              <div class="meta"><div class="title">ˋмүѕтεяу "Main Account I Own"</div></div>
             </a>
-            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="vrchat"></div>
-              <div class="meta"><div class="title">VRChat — Group</div></div>
+            <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="vrchat" alt="Account"></div>
+              <div class="meta"><div class="title">ˋмүѕтєяу "Alt Account I Own"</div></div>
             </a>
             <a class="link" href="https://vrchat.com/home/group/grp_45c0a12d-58f8-4edd-bf01-1591f0b8a9ba" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="vrchat"></div>
-              <div class="meta"><div class="title">VRChat — Group</div></div>
+              <div class="avatar"><img data-src="vrchat" alt="Group"></div>
+              <div class="meta"><div class="title">R.I.P Charlie Kirk "VRChat Group I Own"</div></div>
+            </a>
+            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="vrchat" alt="Group"></div>
+              <div class="meta"><div class="title">ˋмүѕтεяу's Hideout "VRChat Group I Own"</div></div>
+            </a>
+            <a class="link" href="https://vrchat.com/home/world/wrld_831deb69-c249-48e1-83fc-15ff064a72b6/info" target="_blank" rel="noopener noreferrer">
+              <div class="avatar"><img data-src="vrchat" alt="World"></div>
+              <div class="meta"><div class="title">Silly Skeleton Hideout "VRChat World I Own"</div></div>
             </a>
           </div>
         </div>
@@ -110,12 +118,13 @@
           <div class="specs">
             <div><strong>CPU:</strong><div>AMD RYZEN 9 5950X, 16-C, 32-T</div></div>
             <div><strong>GPU:</strong><div>GEFORCE RTX 3060 （20GB M, 12GB V）</div></div>
-            <div><strong>RAM:</strong><div>Fanxiang, 16GB, DDR4, 3600MHz</div></div>
+            <div><strong>RAM:</strong><div>2X Fanxiang, 8GB, DDR4, 3600MHz</div></div>
             <div><strong>STORAGE:</strong><div>1TB SSD, 1TB HDD</div></div>
             <div><strong>MOTHERBOARD:</strong><div>MSI A520M-A PRO</div></div>
-            <div><strong>NETWORK:</strong><div>ETHERNET & WIFI USB</div></div>
-            <div><strong>PSU:</strong><div>750W</div></div>
-            <div><strong>WINDOWS:</strong><div>Windows 7 Modified</div></div>
+            <div><strong>PSU:</strong><div>Corsair CX750 Bronze: 750W</div></div>
+            <div><strong>NETWORK:</strong><div>ETHERNET & WIFI USB: 1GIG Up / 1GIG Down</div></div>
+            <div><strong>OS:</strong><div>Windows 7 Modified & Protected</div></div>
+            <div><strong>CPU COOLER:</strong><div>Peerless Assassin 120SE</div></div>
           </div>
         </div>
       </div>
@@ -123,16 +132,6 @@
   </div>
 
 <script>
-/*
-  Features implemented:
-  - Default "Info" tab active and editable (contenteditable)
-  - Fade transitions between tabs and per-tab background colors
-  - Intro animation: username + subtitle fade in; Info panel types text at 0.01s/char
-  - Global view counter using CountAPI (increment on load)
-  - Link avatars auto-loaded from known host icons
-  - Physics for letters: letters fall but are clamped to viewport and collisions between letters
-  - Letters start from their actual on-screen positions (fixes off-center)
-*/
 
 const bg=document.getElementById('bg');
 const username=document.getElementById('username');
