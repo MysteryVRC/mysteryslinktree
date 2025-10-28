@@ -3,314 +3,221 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FishMaster828</title>
-  <meta name="description" content="Link tree for ˋмүѕтєяy (FishMaster828)" />
+  <title>Mysteryslinktree</title>
+  <meta name="description" content="Link tree for ˋмүѕтεяу" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     html,body,#app{height:100%}
     body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#fff;background:#000;overflow:hidden}
 
-    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;transition:background .5s ease,opacity .5s ease;transform-origin:50% 50%}
-    .overlay{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:32px}
+    /* background */
+    .bg{position:fixed;inset:0;pointer-events:none;z-index:0;transition:background 700ms ease;transform-origin:50% 50%}
+    .overlay{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px}
 
-    .brand{text-align:center;cursor:pointer;user-select:none;position:relative}
-    .brand h1{font-family:'Segoe UI Variable',ui-sans-serif,system-ui,-apple-system;font-size:48px;letter-spacing:6px;margin-bottom:6px;line-height:1;color:#fff;text-shadow:0 0 8px rgba(255,255,255,0.25);transition:opacity .6s ease,transform .6s ease;position:relative;display:inline-flex}
-    .brand p{opacity:0.9;margin-top:6px}
+    /* header */
+    .brand{width:100%;text-align:center;user-select:none;position:relative;z-index:3}
+    #usernameWrap{display:inline-block;position:relative}
+    #username{font-size:48px;letter-spacing:6px;color:#fff;text-shadow:0 0 8px rgba(255,255,255,0.18);display:inline-block}
+    #subtitle{margin-top:8px;opacity:0.95;font-size:16px;min-height:22px}
 
-    #view-counter{position:fixed;top:10px;right:16px;background:rgba(255,255,255,0.08);padding:6px 10px;border-radius:8px;font-size:14px;z-index:10}
+    /* card and tabs */
+    .card{position:relative;z-index:2;width:min(920px,95%);max-width:920px;margin-top:18px;background:rgba(0,0,0,0.45);border-radius:14px;padding:12px;backdrop-filter:blur(8px);box-shadow:0 12px 60px rgba(0,0,0,.6);overflow:hidden}
+    .tabs{display:flex;gap:8px;padding:8px}
+    .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer;user-select:none;transition:background 450ms,transform 220ms;color:#ddd}
+    .tab.active{transform:translateY(-3px);background:rgba(255,255,255,0.06);color:#fff}
 
-    .card{position:relative;z-index:2;width:min(820px,95%);max-width:820px;margin-top:28px;background:linear-gradient(180deg,rgba(17,11,25,0.55),rgba(0,0,0,0.6));border-radius:16px;padding:18px;backdrop-filter:blur(8px);box-shadow:0 8px 40px rgba(0,0,0,.6)}
-    .tabs{display:flex;gap:8px;margin-bottom:14px}
-    .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer;user-select:none;transition:background .25s}
-    .tab.active{background:linear-gradient(90deg,#6b3bff66,#00000033)}
+    /* swipe container */
+    .viewport{width:100%;height:420px;overflow:hidden;position:relative}
+    .scroller{display:flex;transition:transform 520ms cubic-bezier(.22,.9,.3,1);height:100%}
+    .panel{flex:0 0 100%;padding:18px;overflow:auto}
 
-    .content{min-height:180px}
-    .panel{opacity:0;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
-    .panel.active{opacity:1;transform:translateY(0)}
-
+    /* link styles */
     .links{display:flex;flex-direction:column;gap:10px}
-    .link{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.02);cursor:pointer;text-decoration:none;color:inherit;transition:transform .12s ease,background .12s}
+    .link{display:flex;align-items:center;gap:12px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));cursor:pointer;text-decoration:none;color:inherit;transition:transform .12s ease,background .12s}
     .link:hover{transform:translateY(-4px)}
     .avatar{width:56px;height:56px;border-radius:10px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;font-weight:700;overflow:hidden}
-    .avatar img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+    .avatar img{width:100%;height:100%;object-fit:cover}
     .meta{flex:1}
     .meta .title{font-weight:600}
     .meta .sub{opacity:.7;font-size:13px;margin-top:4px}
 
+    /* specs grid */
     .specs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
     .specs div{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px}
 
+    /* info box is scrollable */
     .infoBox{min-height:140px;padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);outline:none}
 
-    @media(max-width:480px){.brand h1{font-size:32px}.avatar{width:48px;height:48px}}
+    /* glitter canvas overlay */
+    #glitterCanvas{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:4}
+
+    /* custom scrollbar to blend with dark theme */
+    .panel::-webkit-scrollbar{width:10px}
+    .panel::-webkit-scrollbar-track{background:transparent}
+    .panel::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02));border-radius:10px}
+    .panel{scrollbar-width:thin;scrollbar-color: rgba(255,255,255,0.06) transparent}
+
+    @media (max-width:600px){#username{font-size:34px}.card{height:auto}.viewport{height:320px}}
   </style>
 </head>
 <body>
   <div class="bg" id="bg"></div>
-  <div id="view-counter">Views: <span id="views">0</span></div>
+
+  <canvas id="glitterCanvas"></canvas>
+
   <div class="overlay" id="app">
     <div class="brand" id="brand">
-      <h1 id="username" aria-label="mystery name"></h1>
-      <p id="subtitle">this is my link tree</p>
+      <div id="usernameWrap"><span id="username" aria-label="mystery name"></span></div>
+      <div id="subtitle"></div>
     </div>
 
-    <div class="card">
+    <div class="card" id="card">
       <div class="tabs" role="tablist">
-        <div class="tab" data-tab="info">Info</div>
-        <div class="tab" data-tab="fish">FishMaster828</div>
-        <div class="tab" data-tab="myst">ˋмүѕтєяy</div>
+        <div class="tab" data-tab="myst">ˋмүѕтεяу</div>
         <div class="tab" data-tab="pc">PC Specs</div>
       </div>
 
-      <div class="content" id="content">
-        <div class="panel" data-panel="info">
-          <div class="infoBox" id="infoBox" contenteditable="true"></div>
-        </div>
+      <div class="viewport" id="viewport">
+        <div class="scroller" id="scroller">
 
-        <div class="panel" data-panel="fish" style="display:none">
-          <p style="margin-bottom:10px;opacity:.85">FishMaster828 Is Still Me But My Streaming Links</p>
-          <div class="links">
-            <a class="link" href="https://www.twitch.tv/fishmaster828" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="twitch" alt="twitch"></div>
-              <div class="meta"><div class="title">Twitch — FishMaster828</div><div class="sub">Watch live, support the streamer</div></div>
-            </a>
-            <a class="link" href="https://www.youtube.com/channel/UCMTTBxwO7aECcgaRrUgYhqA" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="youtube" alt="youtube"></div>
-              <div class="meta"><div class="title">YouTube — FishMaster828</div><div class="sub">Subscribe for videos</div></div>
-            </a>
-            <a class="link" href="https://www.tiktok.com/@fishmaster828" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="tiktok" alt="tiktok"></div>
-              <div class="meta"><div class="title">TikTok — @fishmaster828</div><div class="sub">Shorts & clips</div></div>
-            </a>
-            <a class="link" href="https://discord.gg/KRA6bV8fKx" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="discord" alt="discord"></div>
-              <div class="meta"><div class="title">FishMaster828's Discord Server</div><div class="sub">Join the community</div></div>
-            </a>
+          <div class="panel" data-panel="myst">
+            <div style="margin-bottom:12px"><strong>About</strong></div>
+            <div class="links" id="mystLinks">
+              <a class="link" href="https://vrchat.com/home/user/usr_89760193-9e73-4f36-b771-1f1330296281" target="_blank" rel="noopener noreferrer"><div class="avatar"><img data-src="vrchat" alt="Account"></div><div class="meta"><div class="title">ˋмүѕтεяy "Main Account I Own"</div></div></a>
+              <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank" rel="noopener noreferrer"><div class="avatar"><img data-src="vrchat" alt="Account"></div><div class="meta"><div class="title">ˋмүѕtєяy "Alt Account I Own"</div></div></a>
+              <a class="link" href="https://vrchat.com/home/group/grp_45c0a12d-58f8-4edd-bf01-1591f0b8a9ba" target="_blank" rel="noopener noreferrer"><div class="avatar"><img data-src="vrchat" alt="Group"></div><div class="meta"><div class="title">R.I.P Charlie Kirk "VRChat Group I Own"</div></div></a>
+              <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank" rel="noopener noreferrer"><div class="avatar"><img data-src="vrchat" alt="Group"></div><div class="meta"><div class="title">ˋмүѕtεяy's Hideout "VRChat Group I Own"</div></div></a>
+              <a class="link" href="https://vrchat.com/home/world/wrld_831deb69-c249-48e1-83fc-15ff064a72b6/info" target="_blank" rel="noopener noreferrer"><div class="avatar"><img data-src="vrchat" alt="World"></div><div class="meta"><div class="title">Silly Skeleton Hideout "VRChat World I Own"</div></div></a>
+            </div>
           </div>
-        </div>
 
-        <div class="panel" data-panel="myst" style="display:none">
-          <div class="links">
-            <a class="link" href="https://vrchat.com/home/user/usr_89760193-9e73-4f36-b771-1f1330296281" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="Account"></div>
-              <div class="meta"><div class="title">ˋмүѕтεяу "Main Account I Own"</div></div>
-            </a>
-            <a class="link" href="https://vrchat.com/home/user/usr_27d2fe78-0a98-4806-8668-4fc502dc0ec6" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="Account"></div>
-              <div class="meta"><div class="title">ˋмүѕтєяу "Alt Account I Own"</div></div>
-            </a>
-            <a class="link" href="https://vrchat.com/home/group/grp_45c0a12d-58f8-4edd-bf01-1591f0b8a9ba" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="Group"></div>
-              <div class="meta"><div class="title">R.I.P Charlie Kirk "VRChat Group I Own"</div></div>
-            </a>
-            <a class="link" href="https://vrchat.com/home/group/grp_892e1af7-3d96-4033-a7b1-c226853eda90" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="Group"></div>
-              <div class="meta"><div class="title">ˋмүѕтεяу's Hideout "VRChat Group I Own"</div></div>
-            </a>
-            <a class="link" href="https://vrchat.com/home/world/wrld_831deb69-c249-48e1-83fc-15ff064a72b6/info" target="_blank" rel="noopener noreferrer">
-              <div class="avatar"><img data-src="vrchat" alt="World"></div>
-              <div class="meta"><div class="title">Silly Skeleton Hideout "VRChat World I Own"</div></div>
-            </a>
+          <div class="panel" data-panel="pc">
+            <div style="margin-bottom:12px"><strong>PC Specs (scroll to view)</strong></div>
+            <div class="specs">
+              <div><strong>CPU:</strong><div>AMD RYZEN 9 5950X, 16-C, 32-T</div></div>
+              <div><strong>GPU:</strong><div>GEFORCE RTX 3060 （20GB M, 12GB V）</div></div>
+              <div><strong>RAM:</strong><div>2X Fanxiang, 8GB, DDR4, 3600MHz</div></div>
+              <div><strong>STORAGE:</strong><div>1TB SSD, 1TB HDD</div></div>
+              <div><strong>MOTHERBOARD:</strong><div>MSI A520M-A PRO</div></div>
+              <div><strong>PSU:</strong><div>Corsair CX750 Bronze: 750W</div></div>
+              <div><strong>NETWORK:</strong><div>ETHERNET & WIFI USB: 1GIG Up / 1GIG Down</div></div>
+              <div><strong>OS:</strong><div>Windows 7 Modified & Protected</div></div>
+              <div><strong>CPU COOLER:</strong><div>Peerless Assassin 120SE</div></div>
+            </div>
           </div>
-        </div>
 
-        <div class="panel" data-panel="pc" style="display:none">
-          <div class="specs">
-            <div><strong>CPU:</strong><div>AMD RYZEN 9 5950X, 16-C, 32-T</div></div>
-            <div><strong>GPU:</strong><div>GEFORCE RTX 3060 （20GB M, 12GB V）</div></div>
-            <div><strong>RAM:</strong><div>2X Fanxiang, 8GB, DDR4, 3600MHz</div></div>
-            <div><strong>STORAGE:</strong><div>1TB SSD, 1TB HDD</div></div>
-            <div><strong>MOTHERBOARD:</strong><div>MSI A520M-A PRO</div></div>
-            <div><strong>PSU:</strong><div>Corsair CX750 Bronze: 750W</div></div>
-            <div><strong>NETWORK:</strong><div>ETHERNET & WIFI USB: 1GIG Up / 1GIG Down</div></div>
-            <div><strong>OS:</strong><div>Windows 7 Modified & Protected</div></div>
-            <div><strong>CPU COOLER:</strong><div>Peerless Assassin 120SE</div></div>
-          </div>
         </div>
       </div>
+
     </div>
   </div>
 
 <script>
+// Elements
+const bg = document.getElementById('bg');
+const tabs = Array.from(document.querySelectorAll('.tab'));
+const scroller = document.getElementById('scroller');
+const viewport = document.getElementById('viewport');
+const usernameEl = document.getElementById('username');
+const subtitleEl = document.getElementById('subtitle');
+const glitterCanvas = document.getElementById('glitterCanvas');
+const ctx = glitterCanvas.getContext('2d');
 
-const bg=document.getElementById('bg');
-const username=document.getElementById('username');
-const subtitle=document.getElementById('subtitle');
-const viewsEl=document.getElementById('views');
-const brand=document.getElementById('brand');
-const tabs=document.querySelectorAll('.tab');
-const panels=document.querySelectorAll('.panel');
-const infoBox=document.getElementById('infoBox');
+// theme backgrounds
+const tabBackgrounds = { myst: 'linear-gradient(135deg, rgba(120,64,255,1) 0%, rgba(10,10,10,1) 100%)', pc: 'linear-gradient(135deg, rgba(255,40,40,1) 0%, rgba(10,10,10,1) 100%)' };
 
-// Per-tab background gradients
-const tabBackgrounds={
-  fish: 'linear-gradient(135deg, rgba(0,200,255,1) 0%, rgba(0,0,0,1) 100%)', // cyan/black
-  myst: 'linear-gradient(135deg, rgba(120,64,255,1) 0%, rgba(10,10,10,1) 100%)', // purple/black
-  info: 'linear-gradient(135deg, rgba(120,64,255,1) 0%, rgba(10,10,10,1) 100%)', // purple/black
-  pc: 'linear-gradient(135deg, rgba(255,40,40,1) 0%, rgba(10,10,10,1) 100%)' // red/black
-};
+// initialize sizes
+function resizeCanvas(){ glitterCanvas.width = window.innerWidth; glitterCanvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas); resizeCanvas();
 
-// Icons map (favicons/public logos)
-const iconMap={
-  twitch: 'https://static.twitchcdn.net/assets/favicon-144x144.png',
-  youtube: 'https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png',
-  tiktok: 'https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png',
-  discord: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico',
-  vrchat: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png',
-};
+// swipe / tab logic
+let activeIndex = 0; // 0 => myst, 1 => pc
+function setActive(idx){ activeIndex = idx; scroller.style.transform = `translateX(-${idx*100}%)`; tabs.forEach((t,i)=>t.classList.toggle('active', i===idx)); const tabKey = idx===0? 'myst':'pc'; bg.style.background = tabBackgrounds[tabKey]; }
+tabs.forEach((t,i)=>t.addEventListener('click', ()=> setActive(i))); setActive(0);
 
-// Set default tab to info on load
-function activateTab(key){
-  tabs.forEach(t=>t.classList.toggle('active', t.dataset.tab===key));
-  panels.forEach(p=>{
-    const show = p.dataset.panel===key;
-    p.style.display = show ? 'block' : 'none';
-    p.classList.toggle('active', show);
-  });
-  // change background
-  bg.style.background = tabBackgrounds[key] || tabBackgrounds.info;
-}
+// touch drag for scroller
+let dragging=false, startX=0, startTranslate=0;
+viewport.addEventListener('pointerdown', e=>{ dragging=true; startX=e.clientX; viewport.setPointerCapture(e.pointerId); startTranslate = -activeIndex*viewport.clientWidth; });
+viewport.addEventListener('pointermove', e=>{ if(!dragging) return; const dx = e.clientX - startX; scroller.style.transition = 'none'; scroller.style.transform = `translateX(${startTranslate + dx}px)`; });
+viewport.addEventListener('pointerup', e=>{ if(!dragging) return; dragging=false; scroller.style.transition = ''; const dx = e.clientX - startX; if(Math.abs(dx) > viewport.clientWidth*0.25){ if(dx<0 && activeIndex < 1) activeIndex++; else if(dx>0 && activeIndex > 0) activeIndex--; } setActive(activeIndex); });
+viewport.addEventListener('pointercancel', ()=>{ dragging=false; setActive(activeIndex); });
 
-tabs.forEach(tab=>tab.addEventListener('click', ()=>{ activateTab(tab.dataset.tab); }));
-activateTab('info');
+// Icons map (auto avatars)
+const iconMap={ twitch: 'https://static.twitchcdn.net/assets/favicon-144x144.png', youtube: 'https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png', tiktok: 'https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png', discord: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico', vrchat: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png' };
+document.querySelectorAll('.avatar img').forEach(img=>{ const key = img.dataset.src; if(key && iconMap[key]) img.src = iconMap[key]; else { const parent = img.closest('.link'); if(parent){ try{ const url=new URL(parent.href); img.src = url.origin + '/favicon.ico'; }catch(e){ img.src=''; } } } });
 
-// Load avatars for links automatically
-document.querySelectorAll('.avatar img').forEach(img=>{
-  const src = img.dataset.src;
-  if(src && iconMap[src]) img.src = iconMap[src];
-  else {
-    // fallback: try site favicon from hostname in parent link
-    const parent = img.closest('.link');
-    if(parent){
-      try{
-        const url = new URL(parent.href);
-        img.src = url.origin + '/favicon.ico';
-      }catch(e){ img.src = '' }
-    }
-  }
-});
+// ------------------ Morse typing for username ------------------
+const name = 'ˋмүѕтεяу';
+const MORSE = {'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.'};
+const translit = {'ˋ':'','м':'M','ү':'Y','ѕ':'S','т':'T','ε':'E','я':'R','y':'Y'};
+function toMorse(ch){ const up = ch.toUpperCase(); if(MORSE[up]) return MORSE[up]; const b = translit[ch]; if(b && MORSE[b]) return MORSE[b]; return null; }
 
-// Global view counter using CountAPI (namespace: mysteryslinktree, key: visits)
-(async function incrementGlobalViews(){
-  try{
-    const res = await fetch('https://api.countapi.xyz/hit/mysteryslinktree/visits');
-    const j = await res.json();
-    if(j && typeof j.value !== 'undefined') viewsEl.textContent = j.value;
-  }catch(e){ console.warn('CountAPI failed', e); viewsEl.textContent = 'n/a' }
-})();
+async function playMorseAndReveal(){ usernameEl.textContent = ''; for(let i=0;i<name.length;i++){ const ch = name[i]; const morse = toMorse(ch); if(!morse){ usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,80)); continue; } for(const sym of morse){ usernameEl.textContent += sym==='.'? '•' : '—'; await new Promise(r=>setTimeout(r, sym==='.'?120:320)); usernameEl.textContent = usernameEl.textContent.slice(0,-1); await new Promise(r=>setTimeout(r,120)); } usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,150)); } }
 
-// Intro animation: fade in username and subtitle, then type text into infoBox
-const nameText = 'ˋмүѕтєяy';
-const subtitleText = 'link tree';
+async function typeSubtitle(){ const text = 'Who The Fuck Am I?'; subtitleEl.textContent=''; for(let i=0;i<text.length;i++){ subtitleEl.textContent += text[i]; await new Promise(r=>setTimeout(r,50)); } }
 
-// create letter spans
-username.innerHTML = '';
-const spans = [];
-for(let ch of nameText){
-  const s = document.createElement('span'); s.textContent = ch;
-  s.style.position='relative'; s.style.display='inline-block'; s.style.transition='transform .2s';
-  username.appendChild(s); spans.push(s);
-}
+window.addEventListener('load', ()=>{ playMorseAndReveal().then(()=>typeSubtitle()); });
 
-// fade in
-username.style.opacity=0; subtitle.style.opacity=0;
-setTimeout(()=>{ username.style.transition='opacity .8s ease, transform .8s ease'; username.style.opacity=1; subtitle.style.transition='opacity .8s ease'; subtitle.style.opacity=1; },200);
+// ------------------ Glitter explosion shaped like letter ------------------
+function spawnGlitterForCharAtRect(char, rect){
+  // samplePoints from a temporary canvas drawing the character
+  const off = document.createElement('canvas');
+  const octx = off.getContext('2d');
+  off.width = Math.min(600, Math.max(80, Math.ceil(rect.width*3)));
+  off.height = Math.min(300, Math.max(40, Math.ceil(rect.height*3)));
+  octx.fillStyle = 'black'; octx.fillRect(0,0,off.width,off.height);
+  // pick a big font so letter is filled
+  const fontSize = Math.min(off.height*0.9, off.width*0.9);
+  octx.font = `${fontSize}px "Segoe UI", system-ui, Arial`;
+  octx.textBaseline = 'top';
+  octx.fillStyle = '#fff';
+  const m = octx.measureText(char);
+  const x = (off.width - m.width)/2;
+  octx.fillText(char, x, 0);
 
-// typing for info box at 0.01s per char (10ms)
-const initialInfo = 'Welcome to my linktree. \n\nIm still building it so it might be a little broken! \n\nSORRY!';
-async function typeText(el,text,delay=10){ el.textContent = ''; for(let i=0;i<text.length;i++){ el.textContent += text[i]; await new Promise(r=>setTimeout(r,delay)); } }
-setTimeout(()=>{ typeText(infoBox, initialInfo, 10); },900);
-
-/* Physics */
-let physicsActive=false;
-// gather letter objects
-let letters = spans.map(s=>({el:s,x:0,y:0,vx:0,vy:0,ax:0,ay:0,grabbed:false,w:0,h:0}));
-
-function resetLetterPositions(){
-  // set each letter's position to its actual on-screen coords
-  letters.forEach(obj=>{
-    const r = obj.el.getBoundingClientRect();
-    obj.x = r.left; obj.y = r.top; obj.w = r.width; obj.h = r.height; obj.vx=0; obj.vy=0; obj.grabbed=false;
-    // make element positioned absolute so transforms are relative to viewport
-    obj.el.style.position='absolute'; obj.el.style.left = obj.x+'px'; obj.el.style.top = obj.y+'px'; obj.el.style.margin=0;
-  });
-}
-
-// ensure positions set after layout
-window.addEventListener('load', ()=>{ resetLetterPositions(); });
-window.addEventListener('resize', ()=>{ // clamp back inside
-  for(let obj of letters){ obj.x = Math.min(Math.max(0, obj.x), window.innerWidth - obj.w); obj.y = Math.min(Math.max(0, obj.y), window.innerHeight - obj.h); obj.el.style.left = obj.x+'px'; obj.el.style.top = obj.y+'px'; }
-});
-
-function updatePhysics(){
-  const gravity = 1.0; const friction = 0.995; const bounce=0.7;
-  const w = window.innerWidth, h = window.innerHeight;
-  // integrate
-  for(let obj of letters){
-    if(obj.grabbed) continue;
-    obj.vy += gravity;
-    obj.vx *= friction; obj.vy *= friction;
-    obj.x += obj.vx; obj.y += obj.vy;
-    // floor
-    if(obj.y + obj.h > h){ obj.y = h - obj.h; obj.vy *= -bounce; if(Math.abs(obj.vy) < 0.5) obj.vy = 0; }
-    // walls
-    if(obj.x < 0){ obj.x = 0; obj.vx *= -bounce; }
-    if(obj.x + obj.w > w){ obj.x = w - obj.w; obj.vx *= -bounce; }
-  }
-  // collisions (basic AABB resolution)
-  for(let i=0;i<letters.length;i++){
-    for(let j=i+1;j<letters.length;j++){
-      const A=letters[i], B=letters[j];
-      if(A === B) continue;
-      if(A.x < B.x + B.w && A.x + A.w > B.x && A.y < B.y + B.h && A.y + A.h > B.y){
-        // simple swap velocities
-        const vx = A.vx; const vy = A.vy;
-        A.vx = B.vx * 0.9; A.vy = B.vy * 0.9;
-        B.vx = vx * 0.9; B.vy = vy * 0.9;
-        // separate
-        const overlapX = (A.x + A.w/2) - (B.x + B.w/2);
-        const sep = overlapX > 0 ? 1 : -1;
-        A.x += sep * 2; B.x -= sep * 2;
+  const img = octx.getImageData(0,0,off.width,off.height).data;
+  const particles = [];
+  for(let py=0; py<off.height; py+=4){
+    for(let px=0; px<off.width; px+=4){
+      const idx = (py*off.width + px)*4 + 3;
+      if(img[idx] > 60){
+        const sx = rect.left + (px - x) / off.width * rect.width + (Math.random()-0.5)*2;
+        const sy = rect.top + py / off.height * rect.height + (Math.random()-0.5)*2;
+        const hue = Math.floor(Math.random()*360);
+        particles.push({x:sx,y:sy,vx:(Math.random()-0.5)*6,vy:- (2+Math.random()*6),life:1200+Math.random()*1000,age:0,size:Math.random()*2+1,color:`hsl(${hue},80%,65%)`});
       }
     }
   }
-  // apply
-  for(let obj of letters){ obj.el.style.left = obj.x + 'px'; obj.el.style.top = obj.y + 'px'; }
-  if(physicsActive) requestAnimationFrame(updatePhysics);
+
+  let last = performance.now();
+  function step(now){ const dt = now - last; last = now; ctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
+    let alive = 0;
+    for(const p of particles){ if(p.age > p.life) continue; p.age += dt; p.vy += 0.02 * (dt/16); p.vx *= 0.998; p.vy *= 0.998; p.x += p.vx * (dt/16); p.y += p.vy * (dt/16); const alpha = Math.max(0, 1 - p.age/p.life); ctx.fillStyle = p.color; ctx.globalAlpha = alpha; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); alive++; }
+    ctx.globalAlpha = 1; if(alive) requestAnimationFrame(step); else ctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
+  }
+  requestAnimationFrame(step);
 }
 
-brand.addEventListener('click', ()=>{
-  // kickoff physics from current positions
-  if(physicsActive) return;
-  resetLetterPositions();
-  // give each letter an initial upward velocity and random horizontal
-  for(let obj of letters){ obj.vy = - (8 + Math.random()*12); obj.vx = (Math.random()-0.5) * 12; }
-  physicsActive = true; updatePhysics();
+// clicking username: detect which character clicked by range
+usernameEl.addEventListener('click', (e)=>{
+  const text = usernameEl.textContent || '';
+  if(!text) return;
+  // build ranges for each char
+  const range = document.createRange();
+  for(let i=0;i<text.length;i++){
+    try{
+      range.setStart(usernameEl.firstChild || usernameEl, i);
+      range.setEnd(usernameEl.firstChild || usernameEl, i+1);
+    }catch(err){ continue; }
+    const r = range.getBoundingClientRect();
+    if(r.width===0 && r.height===0) continue;
+    if(e.clientX >= r.left && e.clientX <= r.right){ spawnGlitterForCharAtRect(text[i], r); return; }
+  }
+  // fallback whole word
+  spawnGlitterForCharAtRect(text[0], usernameEl.getBoundingClientRect());
 });
 
-// Drag letters
-for(const obj of letters){
-  const el = obj.el;
-  let pointerId = null;
-  el.addEventListener('pointerdown', (e)=>{
-    e.preventDefault(); el.setPointerCapture(e.pointerId); pointerId = e.pointerId;
-    obj.grabbed = true; obj.vx = obj.vy = 0;
-    const startX = e.clientX, startY = e.clientY, startObjX = obj.x, startObjY = obj.y;
-    function move(ev){ if(ev.pointerId !== pointerId) return; obj.x = Math.min(Math.max(0, startObjX + (ev.clientX - startX)), window.innerWidth - obj.w); obj.y = Math.min(Math.max(0, startObjY + (ev.clientY - startY)), window.innerHeight - obj.h); obj.el.style.left = obj.x + 'px'; obj.el.style.top = obj.y + 'px'; }
-    function up(ev){ if(ev.pointerId !== pointerId) return; obj.grabbed=false; el.releasePointerCapture(pointerId); pointerId=null; document.removeEventListener('pointermove', move); document.removeEventListener('pointerup', up);
-      // set a small velocity based on last movement
-      obj.vx = (ev.movementX || 0); obj.vy = (ev.movementY || 0);
-    }
-    document.addEventListener('pointermove', move);
-    document.addEventListener('pointerup', up);
-  });
-}
-
-// Ensure clicking links still navigates - anchors wrap the avatar and meta
-// (already native behavior)
-
-// Ensure infoBox is focusable and editable — done via contenteditable
-infoBox.addEventListener('input', ()=>{/* user can edit text */});
+// make panels vertically scrollable (native) — scrollbar styled in CSS above
 
 </script>
 </body>
