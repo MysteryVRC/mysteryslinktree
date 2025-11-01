@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Mysteryslinktree</title>
-  <meta name="description" content="Link tree for ˋмүѕтεяу" />
+  <meta name="description" content="Link tree for ˋмүѕtεяу" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     html,body,#app{height:100%}
@@ -15,13 +15,13 @@
     .overlay{position:fixed;inset:0;z-index:1;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px}
 
     /* header */
-    .brand{width:100%;text-align:center;user-select:none;position:relative;z-index:3}
+    .brand{width:100%;text-align:center;user-select:none;position:relative;z-index:3;margin-bottom:20px}
     #usernameWrap{display:inline-block;position:relative}
     #username{font-size:48px;letter-spacing:6px;color:#fff;text-shadow:0 0 8px rgba(255,255,255,0.18);display:inline-block}
     #subtitle{margin-top:8px;opacity:0.95;font-size:16px;min-height:22px}
 
     /* card and tabs */
-    .card{position:relative;z-index:2;width:min(920px,95%);max-width:920px;margin-top:18px;background:rgba(0,0,0,0.45);border-radius:14px;padding:12px;backdrop-filter:blur(8px);box-shadow:0 12px 60px rgba(0,0,0,.6);overflow:hidden}
+    .card{position:relative;z-index:2;width:min(920px,95%);max-width:920px;margin-top:0;background:rgba(0,0,0,0.45);border-radius:14px;padding:12px;backdrop-filter:blur(8px);box-shadow:0 12px 60px rgba(0,0,0,.6);overflow:hidden}
     .tabs{display:flex;gap:8px;padding:8px}
     .tab{flex:0 0 auto;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,0.03);cursor:pointer;user-select:none;transition:background 450ms,transform 220ms;color:#ddd}
     .tab.active{transform:translateY(-3px);background:rgba(255,255,255,0.06);color:#fff}
@@ -67,13 +67,13 @@
 
   <div class="overlay" id="app">
     <div class="brand" id="brand">
-      <div id="usernameWrap"><span id="username" aria-label="mystery name"></span></div>
-      <div id="subtitle"></div>
+      <div id="usernameWrap"><span id="username" aria-label="mystery name">ˋмүѕтεяу</span></div>
+      <div id="subtitle">Who The Fuck Am I?</div>
     </div>
 
     <div class="card" id="card">
       <div class="tabs" role="tablist">
-        <div class="tab" data-tab="myst">ˋмүѕтεяу</div>
+        <div class="tab" data-tab="myst">ˋмүѕtεяу</div>
         <div class="tab" data-tab="pc">PC Specs</div>
       </div>
 
@@ -144,31 +144,57 @@ viewport.addEventListener('pointermove', e=>{ if(!dragging) return; const dx = e
 viewport.addEventListener('pointerup', e=>{ if(!dragging) return; dragging=false; scroller.style.transition = ''; const dx = e.clientX - startX; if(Math.abs(dx) > viewport.clientWidth*0.25){ if(dx<0 && activeIndex < 1) activeIndex++; else if(dx>0 && activeIndex > 0) activeIndex--; } setActive(activeIndex); });
 viewport.addEventListener('pointercancel', ()=>{ dragging=false; setActive(activeIndex); });
 
-// Icons map (auto avatars)
-const iconMap={ twitch: 'https://static.twitchcdn.net/assets/favicon-144x144.png', youtube: 'https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png', tiktok: 'https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png', discord: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico', vrchat: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png' };
-document.querySelectorAll('.avatar img').forEach(img=>{ const key = img.dataset.src; if(key && iconMap[key]) img.src = iconMap[key]; else { const parent = img.closest('.link'); if(parent){ try{ const url=new URL(parent.href); img.src = url.origin + '/favicon.ico'; }catch(e){ img.src=''; } } } });
+// Icons map (auto avatars). Prefer local Logos folder if present.
+const iconMap={ twitch: 'Logos/Twitch.ico', youtube: 'Logos/YouTube.ico', tiktok: 'Logos/TikTok.ico', discord: 'Logos/Discord.ico', vrchat: 'Logos/VRChat.ico' };
+// fallback remote icons for hosts that don't have local versions
+const fallbackMap={ twitch: 'https://static.twitchcdn.net/assets/favicon-144x144.png', youtube: 'https://www.youtube.com/s/desktop/6b1a2b2a/img/favicon_144.png', tiktok: 'https://sf-tkcdn-tos.pstatp.com/img/tiktok-logo.png', discord: 'https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico', vrchat: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/VRChat_Logo.png' };
 
-// ------------------ Morse typing for username ------------------
+document.querySelectorAll('.avatar img').forEach(img=>{
+  const key = (img.dataset.src||'').toLowerCase();
+  // try local Logos folder first
+  if(key && iconMap[key]){
+    img.src = iconMap[key];
+    // still set fallback on error (in case local file missing)
+    img.onerror = ()=>{ img.onerror=null; img.src = fallbackMap[key] || '' };
+  }else{
+    const parent = img.closest('.link');
+    if(parent){
+      try{ const url = new URL(parent.href); img.src = url.origin + '/favicon.ico'; img.onerror = ()=>{ img.onerror=null; img.src = fallbackMap[url.hostname.split('.').slice(-2).join('.')]||'' }; }catch(e){ img.src=''; }
+  }
+  }
+});
+
+// Ensure clicking a .link opens the link (protect against any handlers). We still allow native anchor behavior but add a safe handler.
+document.querySelectorAll('.link').forEach(a=>{
+  a.addEventListener('click', (e)=>{
+    // if clicked anywhere inside, open the href in a new tab
+    const href = a.getAttribute('href');
+    if(href){ window.open(href, '_blank', 'noopener'); }
+  });
+});
+
+// ------------------ Morse typing for username (2x faster) ------------------
 const name = 'ˋмүѕтεяу';
 const MORSE = {'A':'.-','B':'-...','C':'-.-.','D':'-..','E':'.','F':'..-.','G':'--.','H':'....','I':'..','J':'.---','K':'-.-','L':'.-..','M':'--','N':'-.','O':'---','P':'.--.','Q':'--.-','R':'.-.','S':'...','T':'-','U':'..-','V':'...-','W':'.--','X':'-..-','Y':'-.--','Z':'--..','0':'-----','1':'.----','2':'..---','3':'...--','4':'....-','5':'.....','6':'-....','7':'--...','8':'---..','9':'----.'};
 const translit = {'ˋ':'','м':'M','ү':'Y','ѕ':'S','т':'T','ε':'E','я':'R','y':'Y'};
 function toMorse(ch){ const up = ch.toUpperCase(); if(MORSE[up]) return MORSE[up]; const b = translit[ch]; if(b && MORSE[b]) return MORSE[b]; return null; }
 
-async function playMorseAndReveal(){ usernameEl.textContent = ''; for(let i=0;i<name.length;i++){ const ch = name[i]; const morse = toMorse(ch); if(!morse){ usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,80)); continue; } for(const sym of morse){ usernameEl.textContent += sym==='.'? '•' : '—'; await new Promise(r=>setTimeout(r, sym==='.'?120:320)); usernameEl.textContent = usernameEl.textContent.slice(0,-1); await new Promise(r=>setTimeout(r,120)); } usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,150)); } }
+// timings halved for 2x speed
+const DOT = 60; const DASH = 160; const SYMBOL_GAP = 60; const CHAR_GAP = 75; const SUBTITLE_SPEED = 25;
 
-async function typeSubtitle(){ const text = 'Who The Fuck Am I?'; subtitleEl.textContent=''; for(let i=0;i<text.length;i++){ subtitleEl.textContent += text[i]; await new Promise(r=>setTimeout(r,50)); } }
+async function playMorseAndReveal(){ usernameEl.textContent = ''; for(let i=0;i<name.length;i++){ const ch = name[i]; const morse = toMorse(ch); if(!morse){ usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,CHAR_GAP)); continue; } for(const sym of morse){ usernameEl.textContent += sym==='.'? '•' : '—'; await new Promise(r=>setTimeout(r, sym==='.'?DOT:DASH)); usernameEl.textContent = usernameEl.textContent.slice(0,-1); await new Promise(r=>setTimeout(r,SYMBOL_GAP)); } usernameEl.textContent += ch; await new Promise(r=>setTimeout(r,CHAR_GAP)); } }
+
+async function typeSubtitle(){ const text = 'Who The Fuck Am I?'; subtitleEl.textContent=''; for(let i=0;i<text.length;i++){ subtitleEl.textContent += text[i]; await new Promise(r=>setTimeout(r,SUBTITLE_SPEED)); } }
 
 window.addEventListener('load', ()=>{ playMorseAndReveal().then(()=>typeSubtitle()); });
 
-// ------------------ Glitter explosion shaped like letter ------------------
+// ------------------ Glitter explosion shaped like letter (falls then fades) ------------------
 function spawnGlitterForCharAtRect(char, rect){
-  // samplePoints from a temporary canvas drawing the character
   const off = document.createElement('canvas');
   const octx = off.getContext('2d');
   off.width = Math.min(600, Math.max(80, Math.ceil(rect.width*3)));
   off.height = Math.min(300, Math.max(40, Math.ceil(rect.height*3)));
   octx.fillStyle = 'black'; octx.fillRect(0,0,off.width,off.height);
-  // pick a big font so letter is filled
   const fontSize = Math.min(off.height*0.9, off.width*0.9);
   octx.font = `${fontSize}px "Segoe UI", system-ui, Arial`;
   octx.textBaseline = 'top';
@@ -186,7 +212,7 @@ function spawnGlitterForCharAtRect(char, rect){
         const sx = rect.left + (px - x) / off.width * rect.width + (Math.random()-0.5)*2;
         const sy = rect.top + py / off.height * rect.height + (Math.random()-0.5)*2;
         const hue = Math.floor(Math.random()*360);
-        particles.push({x:sx,y:sy,vx:(Math.random()-0.5)*6,vy:- (2+Math.random()*6),life:1200+Math.random()*1000,age:0,size:Math.random()*2+1,color:`hsl(${hue},80%,65%)`});
+        particles.push({x:sx,y:sy,vx:(Math.random()-0.5)*6,vy:- (2+Math.random()*6),life:1600+Math.random()*1200,age:0,size:Math.random()*2+1,color:`hsl(${hue},80%,65%)`,settled:false,settleAt:0});
       }
     }
   }
@@ -194,8 +220,31 @@ function spawnGlitterForCharAtRect(char, rect){
   let last = performance.now();
   function step(now){ const dt = now - last; last = now; ctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
     let alive = 0;
-    for(const p of particles){ if(p.age > p.life) continue; p.age += dt; p.vy += 0.02 * (dt/16); p.vx *= 0.998; p.vy *= 0.998; p.x += p.vx * (dt/16); p.y += p.vy * (dt/16); const alpha = Math.max(0, 1 - p.age/p.life); ctx.fillStyle = p.color; ctx.globalAlpha = alpha; ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill(); alive++; }
-    ctx.globalAlpha = 1; if(alive) requestAnimationFrame(step); else ctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
+    for(const p of particles){
+      if(p.age > p.life) continue;
+      p.age += dt;
+      if(!p.settled){
+        // gravity
+        p.vy += 0.03 * (dt/16);
+        p.vx *= 0.998; p.vy *= 0.998;
+        p.x += p.vx * (dt/16); p.y += p.vy * (dt/16);
+        // if reached bottom, settle and start fade timer
+        if(p.y >= glitterCanvas.height - p.size - 2){ p.y = glitterCanvas.height - p.size - 2; p.vx = 0; p.vy = 0; p.settled = true; p.settleAt = now; }
+      } else {
+        // settled: remain, then fade over 800ms
+      }
+      // compute alpha: if settled, fade based on time since settleAt; else fade normally by age/life
+      let alpha = 1;
+      if(p.settled){ const t = now - p.settleAt; alpha = Math.max(0, 1 - t/800); }
+      else { alpha = Math.max(0, 1 - p.age / p.life); }
+      if(alpha <= 0) continue;
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = p.color;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+      alive++;
+    }
+    ctx.globalAlpha = 1;
+    if(alive) requestAnimationFrame(step); else ctx.clearRect(0,0,glitterCanvas.width,glitterCanvas.height);
   }
   requestAnimationFrame(step);
 }
@@ -204,18 +253,13 @@ function spawnGlitterForCharAtRect(char, rect){
 usernameEl.addEventListener('click', (e)=>{
   const text = usernameEl.textContent || '';
   if(!text) return;
-  // build ranges for each char
   const range = document.createRange();
   for(let i=0;i<text.length;i++){
-    try{
-      range.setStart(usernameEl.firstChild || usernameEl, i);
-      range.setEnd(usernameEl.firstChild || usernameEl, i+1);
-    }catch(err){ continue; }
+    try{ range.setStart(usernameEl.firstChild || usernameEl, i); range.setEnd(usernameEl.firstChild || usernameEl, i+1); }catch(err){ continue; }
     const r = range.getBoundingClientRect();
     if(r.width===0 && r.height===0) continue;
     if(e.clientX >= r.left && e.clientX <= r.right){ spawnGlitterForCharAtRect(text[i], r); return; }
   }
-  // fallback whole word
   spawnGlitterForCharAtRect(text[0], usernameEl.getBoundingClientRect());
 });
 
